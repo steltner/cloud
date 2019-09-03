@@ -16,12 +16,11 @@ return [
 	// Thus, both first-party and third-party code being used by
 	// your application should be included in this list.
 	'directory_list' => [
-		'3rdparty',
 		'apps/',
 		'build/.phan/stubs',
 		'core/',
 		'lib/',
-		'lib/composer',
+		'vendor',
 		'ocs-provider/',
 		'ocs/',
 		'settings/',
@@ -48,7 +47,6 @@ return [
 	//       should be added to the `directory_list` as
 	//       to `exclude_analysis_directory_list`.
 	'exclude_analysis_directory_list' => [
-		'3rdparty',
 		'apps/accessibility/composer',
 		'apps/admin_audit/composer',
 		'apps/admin_audit/tests',
@@ -99,7 +97,7 @@ return [
 		'apps/workflowengine/composer',
 		'apps/workflowengine/tests',
 		'build/.phan/',
-		'lib/composer',
+		'vendor',
 	],
 
 	// A file list that defines files that will be excluded

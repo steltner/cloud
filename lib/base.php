@@ -571,12 +571,12 @@ class OC {
 		self::$CLI = (php_sapi_name() == 'cli');
 
 		// Add default composer PSR-4 autoloader
-		self::$composerAutoloader = require_once OC::$SERVERROOT . '/lib/composer/autoload.php';
+		self::$composerAutoloader = require_once OC::$SERVERROOT . '/vendor/autoload.php';
 
 		try {
 			self::initPaths();
 			// setup 3rdparty autoloader
-			$vendorAutoLoad = OC::$SERVERROOT. '/3rdparty/autoload.php';
+			$vendorAutoLoad = OC::$SERVERROOT. '/vendor/autoload.php';
 			if (!file_exists($vendorAutoLoad)) {
 				throw new \RuntimeException('Composer autoloader not found, unable to continue. Check the folder "3rdparty". Running "git submodule update --init" will initialize the git submodule that handles the subfolder "3rdparty".');
 			}

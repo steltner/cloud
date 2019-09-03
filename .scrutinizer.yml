@@ -15,7 +15,6 @@ checks:
 
 filter:
     excluded_paths:
-        - '3rdparty/*'
         - 'apps/*/3rdparty/*'
         - 'apps/*/vendor/*'
         - 'l10n/*'
@@ -32,7 +31,7 @@ filter:
         - 'settings/l10n/*'
         - 'tests/*'
         - 'build/*'
-        - 'lib/composer/*'
+        - 'vendor/*'
 
 imports:
     - javascript

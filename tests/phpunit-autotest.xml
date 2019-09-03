@@ -20,7 +20,6 @@
 		<whitelist>
 			<directory suffix=".php">..</directory>
 			<exclude>
-				<directory suffix=".php">../3rdparty</directory>
 				<directory suffix=".php">../apps/admin_audit/tests</directory>
 				<directory suffix=".php">../apps/dav/tests</directory>
 				<directory suffix=".php">../apps/encryption/tests</directory>
@@ -42,7 +41,7 @@
 				<directory suffix=".php">../apps/workflowengine/tests</directory>
 				<directory suffix=".php">../tests</directory>
 				<directory suffix=".php">../build</directory>
-				<directory suffix=".php">../lib/composer</directory>
+				<directory suffix=".php">../vendor</directory>
 				<directory suffix=".php">../apps/*/composer</directory>
 			</exclude>
 		</whitelist>
