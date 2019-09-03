@@ -20,7 +20,7 @@
  *
  */
 
-require '../../../../3rdparty/autoload.php';
+require __DIR__ . '/../../../vendor/autoload.php';
 
 if ($argc !== 6) {
 	echo "Invalid number of arguments" . PHP_EOL;
