@@ -48,6 +48,8 @@
 # apps modules
 /apps/*/node_modules
 
+# composer
+vendor/
 
 # ignore themes except the example and the README
 /themes/*
