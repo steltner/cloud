@@ -7,5 +7,4 @@
  * See the COPYING-README file.
  */
 
-//$argv = $_SERVER['argv'];
 require_once __DIR__ . '/console.php';
