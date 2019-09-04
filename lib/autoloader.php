@@ -33,7 +33,7 @@ declare(strict_types=1);
 
 namespace OC;
 
-use \OCP\AutoloadNotAllowedException;
+use OCP\AutoloadNotAllowedException;
 use OCP\ILogger;
 
 class Autoloader {
