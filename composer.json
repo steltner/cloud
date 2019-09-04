@@ -25,6 +25,7 @@
         "php": ">=7.2",
         "ext-json": "*",
         "ext-posix": "*",
+        "ext-zend": "*",
         "ext-zend-opcache": "*",
         "aws/aws-sdk-php": "^3.35",
         "bantu/ini-get-wrapper": "v1.0.1",
