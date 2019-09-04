@@ -16,6 +16,11 @@
             "OCP\\": "lib/public"
         }
     },
+    "autoload-dev": {
+        "psr-0": {
+            "": "tests"
+        }
+    },
     "require": {
         "php": ">=7.2",
         "ext-json": "*",

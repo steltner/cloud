@@ -60,8 +60,6 @@ use OC\Encryption\HookManager;
 use OC\Files\Filesystem;
 use OC\Share20\Hooks;
 
-require_once 'public/Constants.php';
-
 /**
  * Class that is a namespace for all global OC variables
  * No, we can not put this class in its own file because it is used by
@@ -104,11 +102,6 @@ class OC {
 	 * check if Nextcloud runs in cli mode
 	 */
 	public static $CLI = false;
-
-	/**
-	 * @var \OC\Autoloader $loader
-	 */
-	public static $loader = null;
 
 	/** @var \Composer\Autoload\ClassLoader $composerAutoloader */
 	public static $composerAutoloader = null;
@@ -556,18 +549,6 @@ class OC {
 		// calculate the root directories
 		OC::$SERVERROOT = str_replace("\\", '/', substr(__DIR__, 0, -4));
 
-		// register autoloader
-		$loaderStart = microtime(true);
-		require_once __DIR__ . '/autoloader.php';
-		self::$loader = new \OC\Autoloader([
-			OC::$SERVERROOT . '/lib/private/legacy',
-		]);
-		if (defined('PHPUNIT_RUN')) {
-			self::$loader->addValidRoot(OC::$SERVERROOT . '/tests');
-		}
-		spl_autoload_register(array(self::$loader, 'load'));
-		$loaderEnd = microtime(true);
-
 		self::$CLI = (php_sapi_name() == 'cli');
 
 		self::registerComposerAutoloader();
@@ -586,12 +567,12 @@ class OC {
 
 		// setup the basic server
 		self::$server = new \OC\Server(\OC::$WEBROOT, self::$config);
-		\OC::$server->getEventLogger()->log('autoloader', 'Autoloader', $loaderStart, $loaderEnd);
+
 		\OC::$server->getEventLogger()->start('boot', 'Initialize');
 
 		// Don't display errors and log them
 		error_reporting(E_ALL | E_STRICT);
-		@ini_set('display_errors', '0');
+@ini_set('display_errors', '1');
 		@ini_set('log_errors', '1');
 
 		if(!date_default_timezone_set('UTC')) {
@@ -616,7 +597,6 @@ class OC {
 
 		self::setRequiredIniValues();
 		self::handleAuthHeaders();
-		self::registerAutoloaderCache();
 
 		// initialize intl fallback is necessary
 		\Patchwork\Utf8\Bootup::initIntl();
@@ -904,23 +884,6 @@ class OC {
 			OC_Hook::connect('OC_User', 'post_deleteUser', Hooks::class, 'post_deleteUser');
 			OC_Hook::connect('OC_User', 'post_removeFromGroup', Hooks::class, 'post_removeFromGroup');
 			OC_Hook::connect('OC_User', 'post_deleteGroup', Hooks::class, 'post_deleteGroup');
-		}
-	}
-
-	protected static function registerAutoloaderCache() {
-		// The class loader takes an optional low-latency cache, which MUST be
-		// namespaced. The instanceid is used for namespacing, but might be
-		// unavailable at this point. Furthermore, it might not be possible to
-		// generate an instanceid via \OC_Util::getInstanceId() because the
-		// config file may not be writable. As such, we only register a class
-		// loader cache if instanceid is available without trying to create one.
-		$instanceId = \OC::$server->getSystemConfig()->getValue('instanceid', null);
-		if ($instanceId) {
-			try {
-				$memcacheFactory = \OC::$server->getMemCacheFactory();
-				self::$loader->setMemoryCache($memcacheFactory->createLocal('Autoloader'));
-			} catch (\Exception $ex) {
-			}
 		}
 	}
 
