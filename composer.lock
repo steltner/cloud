@@ -4,20 +4,20 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "a3b0c3dd5ea6b9c2b265d26fbe507ffa",
+    "content-hash": "a12b7c458054328ce3fc683d7b80ed4a",
     "packages": [
         {
             "name": "aws/aws-sdk-php",
-            "version": "3.110.8",
+            "version": "3.110.10",
             "source": {
                 "type": "git",
                 "url": "https://github.com/aws/aws-sdk-php.git",
-                "reference": "1c4ec294479c0ab1d231431b04b2b2f14a72407f"
+                "reference": "705fc1ffe05747e6789b19480764ebcd06995911"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/1c4ec294479c0ab1d231431b04b2b2f14a72407f",
-                "reference": "1c4ec294479c0ab1d231431b04b2b2f14a72407f",
+                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/705fc1ffe05747e6789b19480764ebcd06995911",
+                "reference": "705fc1ffe05747e6789b19480764ebcd06995911",
                 "shasum": ""
             },
             "require": {
@@ -87,7 +87,7 @@
                 "s3",
                 "sdk"
             ],
-            "time": "2019-09-03T19:34:31+00:00"
+            "time": "2019-09-05T18:11:21+00:00"
         },
         {
             "name": "bantu/ini-get-wrapper",
@@ -3622,6 +3622,7 @@
         "php": ">=7.2",
         "ext-json": "*",
         "ext-posix": "*",
+        "ext-xmlwriter": "*",
         "ext-zend-opcache": "*"
     },
     "platform-dev": [],
