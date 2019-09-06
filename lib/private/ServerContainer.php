@@ -122,16 +122,9 @@ class ServerContainer extends SimpleContainer {
 
 		// In case the service starts with OCA\ we try to find the service in
 		// the apps container first.
-		if (strpos($name, 'OCA\\') === 0 && substr_count($name, '\\') >= 2) {
-			$segments = explode('\\', $name);
-			try {
-				$appContainer = $this->getAppContainer(strtolower($segments[1]), $segments[1]);
-				return $appContainer->queryNoFallback($name);
-			} catch (QueryException $e) {
-				// Didn't find the service or the respective app container,
-				// ignore it and fall back to the core container.
-			}
-		} else if (strpos($name, 'OC\\Settings\\') === 0 && substr_count($name, '\\') >= 3) {
+		if ((strpos($name, 'OCA\\') === 0 && substr_count($name, '\\') >= 2)
+			|| (strpos($name, 'OC\\Settings\\') === 0 && substr_count($name, '\\') >= 3))
+		{
 			$segments = explode('\\', $name);
 			try {
 				$appContainer = $this->getAppContainer(strtolower($segments[1]), $segments[1]);
