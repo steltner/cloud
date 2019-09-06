@@ -108,6 +108,7 @@ class SimpleContainer extends Container implements IContainer {
 
 	public function query(string $name, bool $autoload = true) {
 		$name = $this->sanitizeName($name);
+
 		if ($this->offsetExists($name)) {
 			return $this->offsetGet($name);
 		} else if ($autoload) {
@@ -167,9 +168,6 @@ class SimpleContainer extends Container implements IContainer {
 	 * @return string
 	 */
 	protected function sanitizeName($name) {
-		if (isset($name[0]) && $name[0] === '\\') {
-			return ltrim($name, '\\');
-		}
-		return $name;
+		return ltrim($name, '\\');
 	}
 }
