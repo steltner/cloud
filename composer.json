@@ -18,6 +18,7 @@
             "OC\\Core\\": "core/",
             "OC\\Settings\\": "settings/",
             "OCP\\": "lib/public",
+            "OCA\\Files_Trashbin\\": "apps/files_trashbin/lib/",
             "OCA\\Files_Versions\\": "apps/files_versions/lib/",
             "OCA\\LookupServerConnector\\": "apps/lookup_server_connector/lib/",
             "OCA\\OAuth2\\": "apps/oauth2/lib/",
