@@ -18,6 +18,7 @@
             "OC\\Core\\": "core/",
             "OC\\Settings\\": "settings/",
             "OCP\\": "lib/public",
+            "OCA\\Testing\\": "apps/testing/lib/",
             "OCA\\TwoFactorBackupCodes\\": "apps/twofactor_backupcodes/lib/",
             "OCA\\UpdateNotification\\": "apps/updatenotification/lib/",
             "OCA\\WorkflowEngine\\": "apps/workflowengine/lib/",
