@@ -547,7 +547,7 @@ class OC {
 
 	public static function init() {
 		// calculate the root directories
-		OC::$SERVERROOT = str_replace("\\", '/', substr(__DIR__, 0, -4));
+		OC::$SERVERROOT = realpath(__DIR__ . DIRECTORY_SEPARATOR . '..');
 
 		self::$CLI = (php_sapi_name() == 'cli');
 
@@ -572,7 +572,7 @@ class OC {
 
 		// Don't display errors and log them
 		error_reporting(E_ALL | E_STRICT);
-@ini_set('display_errors', '1');
+		@ini_set('display_errors', '0');
 		@ini_set('log_errors', '1');
 
 		if(!date_default_timezone_set('UTC')) {
