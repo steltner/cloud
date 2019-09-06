@@ -162,7 +162,7 @@ class SimpleContainer extends Container implements IContainer {
 		}, false);
 	}
 
-	/*
+	/**
 	 * @param string $name
 	 * @return string
 	 */
