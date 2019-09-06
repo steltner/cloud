@@ -106,7 +106,7 @@ class OC_App {
 	 * if $types is set to non-empty array, only apps of those types will be loaded
 	 */
 	public static function loadApps(array $types = []): bool {
-		if ((bool) \OC::$server->getSystemConfig()->getValue('maintenance', false)) {
+		if ((bool) OC::$server->getSystemConfig()->getValue('maintenance', false)) {
 			return false;
 		}
 		// Load the enabled apps here
@@ -149,54 +149,54 @@ class OC_App {
 		self::registerAutoloading($app, $appPath);
 
 		if (is_file($appPath . '/appinfo/app.php')) {
-			\OC::$server->getEventLogger()->start('load_app_' . $app, 'Load app: ' . $app);
+			OC::$server->getEventLogger()->start('load_app_' . $app, 'Load app: ' . $app);
 			try {
 				self::requireAppFile($app);
 			} catch (Throwable $ex) {
-				\OC::$server->getLogger()->logException($ex);
-				if (!\OC::$server->getAppManager()->isShipped($app)) {
+				OC::$server->getLogger()->logException($ex);
+				if (!OC::$server->getAppManager()->isShipped($app)) {
 					// Only disable apps which are not shipped
-					\OC::$server->getAppManager()->disableApp($app, true);
+					OC::$server->getAppManager()->disableApp($app, true);
 				}
 			}
-			\OC::$server->getEventLogger()->end('load_app_' . $app);
+			OC::$server->getEventLogger()->end('load_app_' . $app);
 		}
 
 		$info = self::getAppInfo($app);
 		if (!empty($info['activity']['filters'])) {
 			foreach ($info['activity']['filters'] as $filter) {
-				\OC::$server->getActivityManager()->registerFilter($filter);
+				OC::$server->getActivityManager()->registerFilter($filter);
 			}
 		}
 		if (!empty($info['activity']['settings'])) {
 			foreach ($info['activity']['settings'] as $setting) {
-				\OC::$server->getActivityManager()->registerSetting($setting);
+				OC::$server->getActivityManager()->registerSetting($setting);
 			}
 		}
 		if (!empty($info['activity']['providers'])) {
 			foreach ($info['activity']['providers'] as $provider) {
-				\OC::$server->getActivityManager()->registerProvider($provider);
+				OC::$server->getActivityManager()->registerProvider($provider);
 			}
 		}
 
 		if (!empty($info['settings']['admin'])) {
 			foreach ($info['settings']['admin'] as $setting) {
-				\OC::$server->getSettingsManager()->registerSetting('admin', $setting);
+				OC::$server->getSettingsManager()->registerSetting('admin', $setting);
 			}
 		}
 		if (!empty($info['settings']['admin-section'])) {
 			foreach ($info['settings']['admin-section'] as $section) {
-				\OC::$server->getSettingsManager()->registerSection('admin', $section);
+				OC::$server->getSettingsManager()->registerSection('admin', $section);
 			}
 		}
 		if (!empty($info['settings']['personal'])) {
 			foreach ($info['settings']['personal'] as $setting) {
-				\OC::$server->getSettingsManager()->registerSetting('personal', $setting);
+				OC::$server->getSettingsManager()->registerSetting('personal', $setting);
 			}
 		}
 		if (!empty($info['settings']['personal-section'])) {
 			foreach ($info['settings']['personal-section'] as $section) {
-				\OC::$server->getSettingsManager()->registerSection('personal', $section);
+				OC::$server->getSettingsManager()->registerSection('personal', $section);
 			}
 		}
 
@@ -210,9 +210,9 @@ class OC_App {
 						'shareType' => $plugin['@attributes']['share-type'],
 						'class' => $plugin['@value'],
 					];
-					\OC::$server->getCollaboratorSearch()->registerPlugin($pluginInfo);
+					OC::$server->getCollaboratorSearch()->registerPlugin($pluginInfo);
 				} else if ($plugin['@attributes']['type'] === 'autocomplete-sort') {
-					\OC::$server->getAutoCompleteManager()->registerSorter($plugin['@value']);
+					OC::$server->getAutoCompleteManager()->registerSorter($plugin['@value']);
 				}
 			}
 		}
@@ -233,17 +233,17 @@ class OC_App {
 
 		// Register on PSR-4 composer autoloader
 		$appNamespace = \OC\AppFramework\App::buildAppNamespace($app);
-		\OC::$server->registerNamespace($app, $appNamespace);
+		OC::$server->registerNamespace($app, $appNamespace);
 
 		if (file_exists($path . '/composer/autoload.php')) {
 			require_once $path . '/composer/autoload.php';
 		} else {
-			\OC::$composerAutoloader->addPsr4($appNamespace . '\\', $path . '/lib/', true);
+			OC::$composerAutoloader->addPsr4($appNamespace . '\\', $path . '/lib/', true);
 		}
 
 		// Register Test namespace only when testing
 		if (defined('PHPUNIT_RUN') || defined('CLI_TEST_RUN')) {
-			\OC::$composerAutoloader->addPsr4($appNamespace . '\\Tests\\', $path . '/tests/', true);
+			OC::$composerAutoloader->addPsr4($appNamespace . '\\Tests\\', $path . '/tests/', true);
 		}
 	}
 
@@ -284,7 +284,7 @@ class OC_App {
 	private static function getAppTypes(string $app): array {
 		//load the cache
 		if (count(self::$appTypes) == 0) {
-			self::$appTypes = \OC::$server->getAppConfig()->getValues(false, 'types');
+			self::$appTypes = OC::$server->getAppConfig()->getValues(false, 'types');
 		}
 
 		if (isset(self::$appTypes[$app])) {
@@ -298,7 +298,7 @@ class OC_App {
 	 * read app types from info.xml and cache them in the database
 	 */
 	public static function setAppTypes(string $app) {
-		$appManager = \OC::$server->getAppManager();
+		$appManager = OC::$server->getAppManager();
 		$appData = $appManager->getAppInfo($app);
 		if(!is_array($appData)) {
 			return;
@@ -311,7 +311,7 @@ class OC_App {
 			$appData['types'] = [];
 		}
 
-		$config = \OC::$server->getConfig();
+		$config = OC::$server->getConfig();
 		$config->setAppValue($app, 'types', $appTypes);
 
 		if ($appManager->hasProtectedAppType($appData['types'])) {
@@ -331,16 +331,16 @@ class OC_App {
 	 * @return string[]
 	 */
 	public static function getEnabledApps(bool $forceRefresh = false, bool $all = false): array {
-		if (!\OC::$server->getSystemConfig()->getValue('installed', false)) {
+		if (!OC::$server->getSystemConfig()->getValue('installed', false)) {
 			return [];
 		}
 		// in incognito mode or when logged out, $user will be false,
 		// which is also the case during an upgrade
-		$appManager = \OC::$server->getAppManager();
+		$appManager = OC::$server->getAppManager();
 		if ($all) {
 			$user = null;
 		} else {
-			$user = \OC::$server->getUserSession()->getUser();
+			$user = OC::$server->getUserSession()->getUser();
 		}
 
 		if (is_null($user)) {
@@ -361,12 +361,12 @@ class OC_App {
 	 *
 	 * @param string $app app
 	 * @return bool
-	 * @deprecated 13.0.0 use \OC::$server->getAppManager()->isEnabledForUser($appId)
+	 * @deprecated 13.0.0 use OC::$server->getAppManager()->isEnabledForUser($appId)
 	 *
 	 * This function checks whether or not an app is enabled.
 	 */
 	public static function isEnabled(string $app): bool {
-		return \OC::$server->getAppManager()->isEnabledForUser($app);
+		return OC::$server->getAppManager()->isEnabledForUser($app);
 	}
 
 	/**
@@ -384,7 +384,7 @@ class OC_App {
 
 		// Check if app is already downloaded
 		/** @var Installer $installer */
-		$installer = \OC::$server->query(Installer::class);
+		$installer = OC::$server->query(Installer::class);
 		$isDownloaded = $installer->isDownloaded($appId);
 
 		if(!$isDownloaded) {
@@ -393,9 +393,9 @@ class OC_App {
 
 		$installer->installApp($appId);
 
-		$appManager = \OC::$server->getAppManager();
+		$appManager = OC::$server->getAppManager();
 		if ($groups !== []) {
-			$groupManager = \OC::$server->getGroupManager();
+			$groupManager = OC::$server->getGroupManager();
 			$groupsList = [];
 			foreach ($groups as $group) {
 				$groupItem = $groupManager->get($group);
@@ -415,7 +415,7 @@ class OC_App {
 	 * @return string|false
 	 */
 	public static function getInstallPath() {
-		if (\OC::$server->getSystemConfig()->getValue('appstoreenabled', true) == false) {
+		if (OC::$server->getSystemConfig()->getValue('appstoreenabled', true) == false) {
 			return false;
 		}
 
@@ -517,10 +517,10 @@ class OC_App {
 	 * @param string $appId
 	 * @param bool $useCache
 	 * @return string
-	 * @deprecated 14.0.0 use \OC::$server->getAppManager()->getAppVersion()
+	 * @deprecated 14.0.0 use OC::$server->getAppManager()->getAppVersion()
 	 */
 	public static function getAppVersion(string $appId, bool $useCache = true): string {
-		return \OC::$server->getAppManager()->getAppVersion($appId, $useCache);
+		return OC::$server->getAppManager()->getAppVersion($appId, $useCache);
 	}
 
 	/**
@@ -531,7 +531,7 @@ class OC_App {
 	 */
 	public static function getAppVersionByPath(string $path): string {
 		$infoFile = $path . '/appinfo/info.xml';
-		$appData = \OC::$server->getAppManager()->getAppInfo($infoFile, true);
+		$appData = OC::$server->getAppManager()->getAppInfo($infoFile, true);
 		return isset($appData['version']) ? $appData['version'] : '';
 	}
 
@@ -544,17 +544,17 @@ class OC_App {
 	 * @param string $lang
 	 * @return array|null
 	 * @note all data is read from info.xml, not just pre-defined fields
-	 * @deprecated 14.0.0 use \OC::$server->getAppManager()->getAppInfo()
+	 * @deprecated 14.0.0 use OC::$server->getAppManager()->getAppInfo()
 	 */
 	public static function getAppInfo(string $appId, bool $path = false, string $lang = null) {
-		return \OC::$server->getAppManager()->getAppInfo($appId, $path, $lang);
+		return OC::$server->getAppManager()->getAppInfo($appId, $path, $lang);
 	}
 
 	/**
 	 * Returns the navigation
 	 *
 	 * @return array
-	 * @deprecated 14.0.0 use \OC::$server->getNavigationManager()->getAll()
+	 * @deprecated 14.0.0 use OC::$server->getNavigationManager()->getAll()
 	 *
 	 * This function returns an array containing all entries added. The
 	 * entries are sorted by the key 'order' ascending. Additional to the keys
@@ -569,7 +569,7 @@ class OC_App {
 	 * Returns the Settings Navigation
 	 *
 	 * @return string[]
-	 * @deprecated 14.0.0 use \OC::$server->getNavigationManager()->getAll('settings')
+	 * @deprecated 14.0.0 use OC::$server->getNavigationManager()->getAll('settings')
 	 *
 	 * This function returns an array containing all settings pages added. The
 	 * entries are sorted by the key 'order' ascending.
@@ -584,7 +584,7 @@ class OC_App {
 	 * @return string
 	 */
 	public static function getCurrentApp(): string {
-		$request = \OC::$server->getRequest();
+		$request = OC::$server->getRequest();
 		$script = substr($request->getScriptName(), strlen(OC::$WEBROOT) + 1);
 		$topFolder = substr($script, 0, strpos($script, '/') ?: 0);
 		if (empty($topFolder)) {
@@ -697,14 +697,14 @@ class OC_App {
 	public function listAllApps(): array {
 		$installedApps = OC_App::getAllApps();
 
-		$appManager = \OC::$server->getAppManager();
+		$appManager = OC::$server->getAppManager();
 		//we don't want to show configuration for these
 		$blacklist = $appManager->getAlwaysEnabledApps();
 		$appList = [];
-		$langCode = \OC::$server->getL10N('core')->getLanguageCode();
-		$urlGenerator = \OC::$server->getURLGenerator();
+		$langCode = OC::$server->getL10N('core')->getLanguageCode();
+		$urlGenerator = OC::$server->getURLGenerator();
 		/** @var \OCP\Support\Subscription\IRegistry $subscriptionRegistry */
-		$subscriptionRegistry = \OC::$server->query(\OCP\Support\Subscription\IRegistry::class);
+		$subscriptionRegistry = OC::$server->query(\OCP\Support\Subscription\IRegistry::class);
 		$supportedApps = $subscriptionRegistry->delegateGetSupportedApps();
 
 		foreach ($installedApps as $app) {
@@ -721,7 +721,7 @@ class OC_App {
 					continue;
 				}
 
-				$enabled = \OC::$server->getConfig()->getAppValue($app, 'enabled', 'no');
+				$enabled = OC::$server->getConfig()->getAppValue($app, 'enabled', 'no');
 				$info['groups'] = null;
 				if ($enabled === 'yes') {
 					$active = true;
@@ -876,7 +876,7 @@ class OC_App {
 		static $versions;
 
 		if(!$versions) {
-			$appConfig = \OC::$server->getAppConfig();
+			$appConfig = OC::$server->getAppConfig();
 			$versions = $appConfig->getValues(false, 'installed_version');
 		}
 		return $versions;
@@ -895,22 +895,22 @@ class OC_App {
 		}
 		self::registerAutoloading($appId, $appPath);
 
-		\OC::$server->getAppManager()->clearAppsCache();
+		OC::$server->getAppManager()->clearAppsCache();
 		$appData = self::getAppInfo($appId);
 		self::executeRepairSteps($appId, $appData['repair-steps']['pre-migration']);
 
 		if (file_exists($appPath . '/appinfo/database.xml')) {
 			OC_DB::updateDbFromStructure($appPath . '/appinfo/database.xml');
 		} else {
-			$ms = new MigrationService($appId, \OC::$server->getDatabaseConnection());
+			$ms = new MigrationService($appId, OC::$server->getDatabaseConnection());
 			$ms->migrate();
 		}
 
 		self::executeRepairSteps($appId, $appData['repair-steps']['post-migration']);
 		self::setupLiveMigrations($appId, $appData['repair-steps']['live-migration']);
 		// update appversion in app manager
-		\OC::$server->getAppManager()->clearAppsCache();
-		\OC::$server->getAppManager()->getAppVersion($appId, false);
+		OC::$server->getAppManager()->clearAppsCache();
+		OC::$server->getAppManager()->getAppVersion($appId, false);
 
 		// run upgrade code
 		if (file_exists($appPath . '/appinfo/update.php')) {
@@ -921,23 +921,23 @@ class OC_App {
 
 		//set remote/public handlers
 		if (array_key_exists('ocsid', $appData)) {
-			\OC::$server->getConfig()->setAppValue($appId, 'ocsid', $appData['ocsid']);
-		} elseif(\OC::$server->getConfig()->getAppValue($appId, 'ocsid', null) !== null) {
-			\OC::$server->getConfig()->deleteAppValue($appId, 'ocsid');
+			OC::$server->getConfig()->setAppValue($appId, 'ocsid', $appData['ocsid']);
+		} elseif(OC::$server->getConfig()->getAppValue($appId, 'ocsid', null) !== null) {
+			OC::$server->getConfig()->deleteAppValue($appId, 'ocsid');
 		}
 		foreach ($appData['remote'] as $name => $path) {
-			\OC::$server->getConfig()->setAppValue('core', 'remote_' . $name, $appId . '/' . $path);
+			OC::$server->getConfig()->setAppValue('core', 'remote_' . $name, $appId . '/' . $path);
 		}
 		foreach ($appData['public'] as $name => $path) {
-			\OC::$server->getConfig()->setAppValue('core', 'public_' . $name, $appId . '/' . $path);
+			OC::$server->getConfig()->setAppValue('core', 'public_' . $name, $appId . '/' . $path);
 		}
 
 		self::setAppTypes($appId);
 
 		$version = \OC_App::getAppVersion($appId);
-		\OC::$server->getConfig()->setAppValue($appId, 'installed_version', $version);
+		OC::$server->getConfig()->setAppValue($appId, 'installed_version', $version);
 
-		\OC::$server->getEventDispatcher()->dispatch(ManagerEvent::EVENT_APP_UPDATE, new ManagerEvent(
+		OC::$server->getEventDispatcher()->dispatch(ManagerEvent::EVENT_APP_UPDATE, new ManagerEvent(
 			ManagerEvent::EVENT_APP_UPDATE, $appId
 		));
 
@@ -965,7 +965,7 @@ class OC_App {
 				$r->addStep($step);
 			} catch (Exception $ex) {
 				$r->emit('\OC\Repair', 'error', [$ex->getMessage()]);
-				\OC::$server->getLogger()->logException($ex);
+				OC::$server->getLogger()->logException($ex);
 			}
 		}
 		// run the steps
@@ -973,7 +973,7 @@ class OC_App {
 	}
 
 	public static function setupBackgroundJobs(array $jobs) {
-		$queue = \OC::$server->getJobList();
+		$queue = OC::$server->getJobList();
 		foreach ($jobs as $job) {
 			$queue->add($job);
 		}
@@ -984,7 +984,7 @@ class OC_App {
 	 * @param string[] $steps
 	 */
 	private static function setupLiveMigrations(string $appId, array $steps) {
-		$queue = \OC::$server->getJobList();
+		$queue = OC::$server->getJobList();
 		foreach ($steps as $step) {
 			$queue->add('OC\Migration\BackgroundRepair', [
 				'app' => $appId,
@@ -997,8 +997,8 @@ class OC_App {
 	 * @return \OC\Files\View|false
 	 */
 	public static function getStorage(string $appId) {
-		if (\OC::$server->getAppManager()->isEnabledForUser($appId)) { //sanity check
-			if (\OC::$server->getUserSession()->isLoggedIn()) {
+		if (OC::$server->getAppManager()->isEnabledForUser($appId)) { //sanity check
+			if (OC::$server->getUserSession()->isLoggedIn()) {
 				$view = new \OC\Files\View('/' . OC_User::getUser());
 				if (!$view->file_exists($appId)) {
 					$view->mkdir($appId);

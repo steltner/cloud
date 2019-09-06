@@ -118,7 +118,6 @@ class Router implements IRouter {
 		if(is_string($app)) {
 			$app = \OC_App::cleanAppId($app);
 		}
-
 		$requestedApp = $app;
 		if ($this->loaded) {
 			return;
@@ -248,8 +247,11 @@ class Router implements IRouter {
 			list(, , $app,) = explode('/', $url, 4);
 
 			$app = \OC_App::cleanAppId($app);
+
 			\OC::$REQUESTEDAPP = $app;
+
 			$this->loadRoutes($app);
+
 		} else if (substr($url, 0, 13) === '/ocsapp/apps/') {
 			// empty string / 'ocsapp' / 'apps' / $app / rest of the route
 			list(, , , $app,) = explode('/', $url, 5);
@@ -268,7 +270,6 @@ class Router implements IRouter {
 		} else {
 			$this->loadRoutes();
 		}
-
 		$matcher = new UrlMatcher($this->root, $this->context);
 		try {
 			$parameters = $matcher->match($url);

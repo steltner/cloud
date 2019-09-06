@@ -93,9 +93,8 @@ class Dispatcher {
 			// prefill reflector with everything thats needed for the
 			// middlewares
 			$this->reflector->reflect($controller, $methodName);
+			$this->middlewareDispatcher->beforeController($controller, $methodName);
 
-			$this->middlewareDispatcher->beforeController($controller,
-				$methodName);
 			$response = $this->executeController($controller, $methodName);
 
 			// if an exception appears, the middleware checks if it can handle the

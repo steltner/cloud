@@ -10,6 +10,7 @@
     "autoload" : {
         "exclude-from-classmap": ["apps**ClassLoader.php"],
         "classmap": ["apps/"],
+        "files": ["lib/OC.php"],
         "psr-0": {
             "": "lib/private/legacy"
         },
@@ -45,6 +46,10 @@
     "autoload-dev": {
         "psr-0": {
             "": "tests"
+        },
+        "psr-4": {
+            "Test\\": "tests/lib/",
+            "Tests\\": "tests/"
         }
     },
 

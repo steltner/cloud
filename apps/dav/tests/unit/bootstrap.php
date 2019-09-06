@@ -26,8 +26,6 @@ if (!defined('PHPUNIT_RUN')) {
 
 require_once __DIR__.'/../../../../lib/base.php';
 
-\OC::$composerAutoloader->addPsr4('Test\\', OC::$SERVERROOT . '/tests/lib/', true);
-
-\OC_App::loadApp('dav');
+OC_App::loadApp('dav');
 
 OC_Hook::clear();
