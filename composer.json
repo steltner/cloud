@@ -18,6 +18,8 @@
             "OC\\Core\\": "core/",
             "OC\\Settings\\": "settings/",
             "OCP\\": "lib/public",
+            "OCA\\Accessibility\\": "apps/accessibility/lib/",
+            "OCA\\AdminAudit\\": "apps/admin_audit/lib/",
             "OCA\\CloudFederationAPI\\": "apps/cloud_federation_api/lib/",
             "OCA\\Comments\\": "apps/comments/lib/",
             "OCA\\DAV\\": "apps/dav/lib/",
