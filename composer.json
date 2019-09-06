@@ -18,7 +18,8 @@
             "OC\\Core\\": "core/",
             "OC\\Settings\\": "settings/",
             "OCP\\": "lib/public",
-            "OCA\\WorkflowEngine\\": "apps/workflowengine/lib/"
+            "OCA\\WorkflowEngine\\": "apps/workflowengine/lib/",
+            "OCA\\User_LDAP\\": "apps/user_ldap/lib/"
         }
     },
     "autoload-dev": {
