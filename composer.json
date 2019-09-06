@@ -18,6 +18,7 @@
             "OC\\Core\\": "core/",
             "OC\\Settings\\": "settings/",
             "OCP\\": "lib/public",
+            "OCA\\LookupServerConnector\\": "apps/lookup_server_connector/lib/",
             "OCA\\OAuth2\\": "apps/oauth2/lib/",
             "OCA\\Provisioning_API\\": "apps/provisioning_api/lib/",
             "OCA\\ShareByMail\\": "apps/sharebymail/lib/",
