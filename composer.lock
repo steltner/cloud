@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "a12b7c458054328ce3fc683d7b80ed4a",
+    "content-hash": "114a84eaad95a449f295d2296a7e306c",
     "packages": [
         {
             "name": "aws/aws-sdk-php",
@@ -839,6 +839,48 @@
             ],
             "description": "sabre/dav plugin to implement rfc5323 SEARCH",
             "time": "2018-03-22T16:07:21+00:00"
+        },
+        {
+            "name": "icewind/smb",
+            "version": "v3.1.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/icewind1991/SMB.git",
+                "reference": "26b7b8780342d0e61313b464b880d50a2ea898e2"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/icewind1991/SMB/zipball/26b7b8780342d0e61313b464b880d50a2ea898e2",
+                "reference": "26b7b8780342d0e61313b464b880d50a2ea898e2",
+                "shasum": ""
+            },
+            "require": {
+                "icewind/streams": ">=0.2.0",
+                "php": ">=5.6"
+            },
+            "require-dev": {
+                "friendsofphp/php-cs-fixer": "^2.13",
+                "phpunit/phpunit": "^5.7"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Icewind\\SMB\\": "src/",
+                    "Icewind\\SMB\\Test\\": "tests/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Robin Appelman",
+                    "email": "icewind@owncloud.com"
+                }
+            ],
+            "description": "php wrapper for smbclient and libsmbclient-php",
+            "time": "2019-03-04T15:02:42+00:00"
         },
         {
             "name": "icewind/streams",
