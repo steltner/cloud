@@ -62,8 +62,6 @@ use OC\Share20\Hooks;
 
 /**
  * Class that is a namespace for all global OC variables
- * No, we can not put this class in its own file because it is used by
- * OC_autoload!
  */
 class OC {
 	/**
