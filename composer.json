@@ -18,6 +18,7 @@
             "OC\\Core\\": "core/",
             "OC\\Settings\\": "settings/",
             "OCP\\": "lib/public",
+            "OCA\\FederatedFileSharing\\": "apps/federatedfilesharing/lib/",
             "OCA\\Federation\\": "apps/federation/lib/",
             "OCA\\Files\\": "apps/files/lib/",
             "OCA\\Files_Sharing\\": "apps/files_sharing/lib/",
