@@ -16,7 +16,9 @@
         "psr-4": {
             "OC\\": "lib/private",
             "OC\\Core\\": "core/",
-            "OCP\\": "lib/public"
+            "OC\\Settings\\": "settings/",
+            "OCP\\": "lib/public",
+            "OCA\\WorkflowEngine\\": "apps/workflowengine/lib/"
         }
     },
     "autoload-dev": {
