@@ -70,9 +70,8 @@ class EventDispatcher implements IEventDispatcher {
 		$this->addListener($eventName, $listener, $priority);
 	}
 
-	public function dispatch(string $eventName,
-							 Event $event): void {
-		$this->dispatcher->dispatch($event, $eventName);
+	public function dispatch(string $eventName, Event $event): void {
+		$this->dispatcher->dispatch($eventName, $event);
 	}
 
 	public function dispatchTyped(Event $event): void {

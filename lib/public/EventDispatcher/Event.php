@@ -25,7 +25,8 @@ declare(strict_types=1);
 
 namespace OCP\EventDispatcher;
 
-use Symfony\Contracts\EventDispatcher\Event as SymfonyEvent;
+
+use Symfony\Component\EventDispatcher\Event as SymfonyEvent;
 
 /**
  * Base event class for the event dispatcher service
