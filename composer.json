@@ -39,8 +39,9 @@
             "OCA\\Testing\\": "apps/testing/lib/",
             "OCA\\TwoFactorBackupCodes\\": "apps/twofactor_backupcodes/lib/",
             "OCA\\UpdateNotification\\": "apps/updatenotification/lib/",
-            "OCA\\WorkflowEngine\\": "apps/workflowengine/lib/",
-            "OCA\\User_LDAP\\": "apps/user_ldap/lib/"
+            "OCA\\User_LDAP\\": "apps/user_ldap/lib/",
+            "OCA\\Settings\\": "apps/settings/lib/",
+            "OCA\\WorkflowEngine\\": "apps/workflowengine/lib/"
         }
     },
     "autoload-dev": {
