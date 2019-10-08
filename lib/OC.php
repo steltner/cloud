@@ -54,11 +54,13 @@
  *
  */
 
-use OCP\ILogger;
-use OCP\Share;
+use OCA\Settings\AppInfo\Application;
 use OC\Encryption\HookManager;
 use OC\Files\Filesystem;
 use OC\Share20\Hooks;
+use OCP\ILogger;
+use OCP\Share;
+
 
 /**
  * Class that is a namespace for all global OC variables
@@ -691,7 +693,7 @@ class OC {
 
 		// Make sure that the application class is not loaded before the database is setup
 		if ($systemConfig->getValue("installed", false)) {
-			$settings = new \OC\Settings\Application();
+			$settings = new Application();
 			$settings->register();
 		}
 
