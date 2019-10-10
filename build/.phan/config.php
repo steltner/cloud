@@ -23,7 +23,6 @@ return [
 		'vendor',
 		'ocs-provider/',
 		'ocs/',
-		'settings/',
 		'tests/lib/Util/User',
 		'themes',
 	],
